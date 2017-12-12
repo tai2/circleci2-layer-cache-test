@@ -1,0 +1,23 @@
+{
+  "name": "circleci2-layer-cache-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "prettier": "prettier --single-quote --trailing-comma=es5 --no-semi --write '**/*.js'",
+    "prettier:check": "prettier --single-quote --trailing-comma=es5 --no-semi --list-different '**/*.js'",
+    "lint": "eslint index.js",
+    "test": "ava"
+  },
+  "author": "tai2",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^4.13.1",
+    "express": "^4.16.2",
+    "prettier": "^1.9.2"
+  },
+  "devDependencies": {
+    "ava": "^0.24.0"
+  }
+}
