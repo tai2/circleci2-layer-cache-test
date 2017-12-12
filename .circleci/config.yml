@@ -12,7 +12,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - v2-{{ .Branch }}
+            - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
       - run:
@@ -30,7 +30,7 @@ jobs:
             mkdir -p /caches
             docker save -o /caches/app.tar app
       - save_cache:
-          key: v2-{{ .Branch }}-{{ epoch }}
+          key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
   test:
@@ -40,7 +40,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - v2-{{ .Branch }}
+            - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
       - run:
@@ -59,7 +59,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - v2-{{ .Branch }}
+            - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
       - run:
@@ -78,7 +78,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - v2-{{ .Branch }}
+            - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
       - run:
