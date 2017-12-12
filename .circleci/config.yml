@@ -52,6 +52,44 @@ jobs:
           name: Run tests
           command: |
             docker run app npm run test
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Run tests
+          command: |
+            docker run app npm run lint
+  prettier:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Run tests
+          command: |
+            docker run app npm run prettier:check
 
 
 workflows:
@@ -60,5 +98,11 @@ workflows:
     jobs:
       - build
       - test:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
+      - prettier:
           requires:
             - build
