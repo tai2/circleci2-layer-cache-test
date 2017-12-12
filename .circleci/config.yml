@@ -1,9 +1,12 @@
+defaults: &defaults
+  working_directory: /app
+  docker:
+    - image: docker:17.11.0-ce-git
+
 version: 2
 jobs:
   build:
-    working_directory: /app
-    docker:
-      - image: docker:17.11.0-ce-git
+    <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
@@ -30,7 +33,32 @@ jobs:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
       - run:
           name: Run tests
           command: |
             docker run app npm run test
+
+
+workflows:
+  version: 2
+  build-test-lint:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
