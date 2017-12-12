@@ -1,9 +1,7 @@
 const express = require('express')
 const app = express()
 
-process.on('SIGINT', function() {
-    process.exit();
-});
+process.on('SIGINT', () => process.exit())
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
